@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+
+    <title>Etch-a-sketch</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="l-container">
+        <div class="l-container-ch">
+          <div class="picker-con">
+            <input type="color" class="btn-primary sm" id="penColorPicker" />
+            <span>Pen Color</span>
+          </div>
+          <div class="picker-con">
+            <input
+              type="color"
+              class="btn-primary sm"
+              id="backgroundColorPicker"
+              value="#ffffff"
+            />
+            <span>Background</span>
+          </div>
+        </div>
+
+        <div class="l-container-ch">
+          <button class="btn-primary md" id="colorMode">Color Mode</button>
+          <button class="btn-primary md" id="rainbowMode">Raindbow Mode</button>
+          <button class="btn-primary md" id="lighten">Lighten</button>
+
+          <button class="btn-primary md" id="eraser">Eraser</button>
+        </div>
+
+        <div class="slider-container">
+          <p><span id="sizeValue"></span></p>
+          <input
+            type="range"
+            min="1"
+            max="64"
+            value="24"
+            class="slider"
+            id="slider"
+          />
+        </div>
+
+        <div class="l-container-ch">
+          <button class="btn-primary md" id="gridLines">Grid Lines</button>
+          <button class="btn-primary md" id="clear">Clear</button>
+        </div>
+      </div>
+
+      <div class="r-container">
+        <h1>Etch-a-Sketch</h1>
+
+        <div id="sketch-pad"></div>
+      </div>
+    </div>
+  </body>
+</html>
