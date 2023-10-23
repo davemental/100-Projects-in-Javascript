@@ -1,66 +1,201 @@
-* {
-  box-sizing: border-box;
+:root {
+  /* COLORS */
+  --black: #000000;
+
+  /* light theme */
+  --background-light: #fffbff;
+  --on-background-light: #201a18;
+  --surface-light: #fff8f6;
+  --on-surface-light: #201a18;
+  --on-surface-variant-light: #52443d;
+  --inverse-surface-light: #362f2c;
+  --inverse-on-surface-light: #fbeee9;
+
+  /* Dark theme */
+  --background-dark: #201a18;
+  --on-background-dark: #ede0db;
+  --surface-dark: #181210;
+  --on-surface-dark: #d0c4bf;
+  --on-surface-variant-dark: #d7c2b9;
+  --inverse-surface-dark: #ede0db;
+  --inverse-on-surface-dark: #201a18;
+
+  /* Border radius */
+  --radius-small: 8px;
+  --radius-medium: 12px;
+  --radius-large: 16px;
+  --radius-extra-large: 28px;
+  --radius-full: 1000px;
+
+  /* Transition */
+  --tr-duration-medium: 400ms;
+  --tr-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Spacing */
+  --spacing-base: 4px;
+  --spacing-2: calc(var(--spacing-base) * 2);
+
+  /* Font size */
+  --fs-title-small: 1.4rem;
+
+  /* Line height */
+  --lh-title-small: 20px;
+
+  /* Font weight */
+  --fw-medium: 500;
+
+  /* line spacing */
+  --ls-p-010: 0.1px;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --background: var(--background-light);
+  --on-background: var(--on-background-light);
+  --surface: var(--surface-light);
+  --on-surface: var(--on-surface-light);
+  --on-surface-variant: var(--on-surface-variant-light);
+  --inverse-surface: var(--inverse-surface-light);
+  --inverse-on-surface: var(--inverse-on-surface-light);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: var(--background-dark);
+  --on-background: var(--on-background-dark);
+  --surface: var(--surface-dark);
+  --on-surface: var(--on-surface-dark);
+  --inverse-surface: var(--inverse-surface-dark);
+  --on-surface-variant: var(--on-surface-variant-dark);
+  --inverse-on-surface: var(--inverse-on-surface-dark);
+}
+
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  background-color: var(--background);
+}
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
 }
 
 main {
-  height: 100vh;
-  text-align: center;
-  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-main svg {
-  height: 30px;
-  cursor: pointer;
-  fill: #1e3a8a;
+/* Icon button */
+.icon-btn {
+  display: grid;
+  place-items: center;
+  color: var(--on-surface-variant);
+  border-radius: var(--radius-full);
+  --state-layer-bg: var(--on-surface-variant);
 }
 
-main svg path:hover {
-  font: #010e17;
+.icon-btn.large {
+  width: 40px;
+  height: 40px;
 }
 
-main .day {
+.material-symbols-rounded {
+  font-size: 3rem;
+}
+
+.theme-btn {
+  transition: transform var(--tr-duration-medium) var(--tr-easing-emphasized);
+}
+
+[data-theme="dark"] .theme-btn .dark-icon,
+.theme-btn .light-icon {
   display: none;
 }
 
-.container {
+[data-theme="dark"] .theme-btn .light-icon {
+  display: block;
+}
+
+[data-theme="dark"] .theme-btn {
+  transform: rotate(-90deg);
+}
+
+:has(> .state-layer) {
   position: relative;
-  display: inline-block;
-  margin-top: 45vh;
+  overflow: hidden;
+  isolation: isolate;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-.container .tooltip-text {
-  visibility: hidden;
-  font-size: 0.8rem;
-  width: 200px;
-  background-color: #666;
-  color: white;
-  text-align: center;
-  border-radius: 8px;
-  padding: 5px 0;
+.state-layer {
   position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -90px;
+  inset: 0;
+  background-color: var(--state-layer-bg);
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity var(--tr-duration-short) var(--tr-easing-linear);
+  z-index: -1;
 }
 
-.container .tooltip-text::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  border-color: #333 transparent transparent transparent;
+:has(> .state-layer):hover > .state-layer {
+  opacity: 0.08;
 }
 
-.container:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
+:has(> .state-layer):is(:focus, :focus-visible, :focus-within) > .state-layer {
+  opacity: 0.12;
+}
+
+:has(> .state-layer):active > .state-layer {
+  opacity: 0.16;
+}
+
+/* Tooltip */
+.tooltip {
+  position: fixed;
+  z-index: 4;
+  height: 24px;
+  display: grid;
+  align-items: center;
+  padding-inline: var(--spacing-2);
+  background-color: var(--inverse-surface);
+  color: var(--inverse-on-surface);
+  white-space: nowrap;
+  border-radius: var(--radius-small);
+  pointer-events: none;
+  animation: fade var(--tr-duration-short) var(--tr-easing-emphasized) forwards;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Typography */
+.text-title-small {
+  font-size: var(--fs-title-small);
+  line-height: var(--lh-title-small);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-p-010);
 }
