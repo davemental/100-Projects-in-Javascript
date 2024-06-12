@@ -2,7 +2,7 @@
 100 Projects Challenge in Vanilla Javascript
 
 **1. Theme Toggler**
-- Button that will toggle dark and light theme
+- A simple Web App that can toggle dark and light theme
 
 **2. Etch-a-Sketch**
 - A simple sketch pad project
